@@ -42,7 +42,7 @@ BRnzp TOPLOOP
 LOOPBOT
 HALT
 
-SOURCE .STRINGZ "AzHello world. The quick brown fox jumps over the lazy dog."
+SOURCE .STRINGZ "Az[Hello world. The quick brown fox jumps over the lazy dog."
 HIST .BLKW #27
 NEGCAP1 .FILL xFFC0
 NEG26 .FILL xFFE6
