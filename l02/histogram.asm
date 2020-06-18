@@ -36,7 +36,7 @@ LDR R6, R1, #0
 ADD R6, R6, #1
 STR R6, R1, #0
 
-ADD R0, R0, #0
+ADD R0, R0, #1
 BRnzp TOPLOOP
 
 LOOPBOT
