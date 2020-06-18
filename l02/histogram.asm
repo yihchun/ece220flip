@@ -1,0 +1,51 @@
+.ORIG x3000
+
+; Register Allocations
+; R0 cur loc in string
+; R1 cur character
+; R2 location of the histogram
+; R3 -'A'+1
+; R4 -26
+
+LEA R0, SOURCE
+LEA R2, HIST
+LD R3, NEGCAP1
+LD R4, NEG26
+LD R5, NEGLAP1
+
+TOPLOOP
+LDR R1, R0, #0
+BRz LOOPBOT
+ADD R1, R1, R3
+BRnz NONALPHA
+ADD R6, R1, R4
+BRnz ISALPHA
+LDR R1, R0, #0
+ADD R1, R1, R5
+BRnz NONALPHA
+ADD R6, R1, R4
+BRnz ISALPHA
+BRp NONALPHA
+
+NONALPHA
+AND R1, R1, #0
+
+ISALPHA
+ADD R1, R1, R2
+LDR R6, R1, #0
+ADD R6, R6, #1
+STR R6, R1, #0
+
+ADD R0, R0, #0
+BRnzp TOPLOOP
+
+LOOPBOT
+HALT
+
+SOURCE .STRINGZ "AzHello world. The quick brown fox jumps over the lazy dog."
+HIST .BLKW #27
+NEGCAP1 .FILL xFFC0
+NEG26 .FILL xFFE6
+NEGLAP1 .FILL xFFA0
+
+.END
