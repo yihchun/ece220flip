@@ -1,0 +1,14 @@
+*
+!lc3web/**/**
+!**/
+!**/*.c
+!**/*.h
+!**/*.cpp
+!**/*.hpp
+!**/*.asm
+!**/*.txt
+!**/Makefile
+!README.md
+!LICENSE
+!.gitignore
+old
