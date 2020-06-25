@@ -1,0 +1,70 @@
+.ORIG x3000
+
+LEA R6, STACK_BOT
+
+POP
+AND R0, R0, #0
+ADD R0, R0, #3
+PUSH
+ADD R0, R0, #1
+PUSH
+ADD R0, R0, #1
+PUSH
+POP
+POP
+
+
+; PUSH
+; input: R0 (value)
+; output: R5 (0 success 1 failure)
+PUSH
+; R3: stack-end
+; R6: stack-top
+
+ST R3, STACK_R3_SAVE
+LEA R3, STACK_TOP
+NOT R3, R3
+ADD R3, R3, #1
+ADD R3, R6, R3
+BRnz PUSH_NO_SPACE
+ADD R6, R6, #-1
+STR R0, R6, #0
+AND R5, R5, #0
+PUSH_RESTORE_RET
+LD R3, STACK_R3_SAVE
+RET
+PUSH_NO_SPACE
+AND R5, R5, #0
+ADD R5, R5, #1
+BRnzp PUSH_RESTORE_RET
+
+; POP
+; output: R0
+; output: R1 (0 success 1 failure)
+; R3: stack-start
+; R6: stack-current
+POP
+ST R3, STACK_R3_SAVE
+LEA R3, STACK_BOT
+NOT R3, R3
+ADD R3, R3, #1
+ADD R3, R6, R3
+BRzp POP_EMPTY
+LDR R0, R6, #0
+ADD R6, R6, #1
+AND R1, R1, #0
+POP_RESTORE_RET
+LD R3, STACK_R3_SAVE
+RET
+POP_EMPTY
+AND R1, R1, #0
+ADD R1, R1, #1
+BRnzp POP_RESTORE_RET
+
+STACK_R3_SAVE .FILL #0
+
+STACK_TOP .FILL x0000
+.BLKW x20
+STACK_BOT .FILL x0000
+	
+.END
