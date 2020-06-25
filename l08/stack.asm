@@ -40,7 +40,7 @@ BRnzp PUSH_RESTORE_RET
 
 ; POP
 ; output: R0
-; output: R1 (0 success 1 failure)
+; output: R5 (0 success 1 failure)
 ; R3: stack-start
 ; R6: stack-current
 POP
@@ -52,13 +52,13 @@ ADD R3, R6, R3
 BRzp POP_EMPTY
 LDR R0, R6, #0
 ADD R6, R6, #1
-AND R1, R1, #0
+AND R5, R5, #0
 POP_RESTORE_RET
 LD R3, STACK_R3_SAVE
 RET
 POP_EMPTY
-AND R1, R1, #0
-ADD R1, R1, #1
+AND R5, R5, #0
+ADD R5, R5, #1
 BRnzp POP_RESTORE_RET
 
 STACK_R3_SAVE .FILL #0
