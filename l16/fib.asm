@@ -1,0 +1,39 @@
+.ORIG x3000
+
+LD R0, FIBPARAM
+JSR FIB
+HALT
+FIBPARAM .FILL #3
+
+; computes the R0'th Fibonacci number
+; places the result in R1
+FIB
+	; if (n<=1) return n;
+	ADD R0, R0, #0
+	BRn FIBNOTLEQ1
+	ADD R1, R0, #-1
+	BRp FIBNOTLEQ1
+	ADD R1, R0, #0
+	RET
+
+FIBNOTLEQ1
+	ST R7, FIBSAVER7
+	ADD R0, R0, #-1
+	JSR FIB
+	ADD R0, R0, #-1
+	ST R1, FIBSAVER1
+	JSR FIB
+	ST R2, FIBSAVER2
+	LD R2, FIBSAVER1
+	ADD R1, R2, R1
+	ADD R0, R0, #2
+	LD R2, FIBSAVER2
+	LD R7, FIBSAVER7
+	RET
+	
+	; need to save R1 before we call Fib again
+	
+FIBSAVER1 .FILL #0
+FIBSAVER2 .FILL #0
+FIBSAVER7 .FILL #0
+.END
