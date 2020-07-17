@@ -1,8 +1,10 @@
 #include <stdio.h>
 
 unsigned int fib(unsigned int n) {
+  unsigned int tmp;
   if (n <= 1) return n;
-  return fib(n-1)+fib(n-2);
+  tmp = fib(n-1);
+  return tmp+fib(n-2);
 }
 
 int main() {
