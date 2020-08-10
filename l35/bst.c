@@ -45,6 +45,15 @@ bst_node *bst_search_nr(bst_node *root, int v) {
   return NULL;
 }
 
+int bst_height(const bst_node *root) {
+  int lh, rh;
+  if (!root) return -1;
+  lh = bst_height(root->left);
+  rh = bst_height(root->right);
+  if (lh < rh) return 1+rh;
+  return 1+lh;
+}
+
 int bst_delete(bst_node **root, int v) {
   bst_node *tmp;
   bst_node **victim;
@@ -100,6 +109,7 @@ int main() {
       printf("%d\n", bst_delete(&root, -x));
     else
       bst_insert(&root, x);
-    bst_display(root);
+    /* bst_display(root); */
+    printf("New height is %d\n", bst_height(root));
   }
 }
