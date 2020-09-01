@@ -1,0 +1,41 @@
+.ORIG x3000
+
+; set up the trap vector table
+;LEA R0, STRINGLEN_ROUTINE
+;STI R0, MYTRAPNUM
+
+; run the trap
+LEA R0, TEST_STR
+JSR STRINGLEN_ROUTINE
+;TRAP x30
+HALT
+
+; build a trap that takes the address of a string in R0
+; and returns the length of that string in R0
+
+STRINGLEN_ROUTINE
+	ST R1, STRINGLEN_SAVER1
+	ST R2, STRINGLEN_SAVER2
+	AND R2, R2, #0			; clear R2
+
+LOOPTOP_STRINGLEN
+	LDR R1, R0, #0
+	BRz DONE_COUNTING
+	ADD R0, R0, #1
+	ADD R2, R2, #1
+	BRnzp LOOPTOP_STRINGLEN
+
+DONE_COUNTING
+	ADD R0, R2, #0
+	LD R1, STRINGLEN_SAVER1
+	LD R2, STRINGLEN_SAVER2
+	RET
+
+
+STRINGLEN_SAVER1 .FILL #0
+STRINGLEN_SAVER2 .FILL #0
+
+MYTRAPNUM .FILL x30
+TEST_STR .STRINGZ "hello world"
+
+.END
